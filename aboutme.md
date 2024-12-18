@@ -10,8 +10,8 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
 
 ### Skills and Experience
 
-- **Technical Mastery:**  
-  Skilled in Python, C#, RESTful APIs, FastAPI, XML, Docker, Terraform, and database management (SQLite, MongoDB, RDB design).
+- **Software:**  
+  Skilled in Python, C#, RESTful APIs, Git, FastAPI, XML, Docker, Terraform, and database management (SQLite, MongoDB, RDB design).
 
 - **Industrial Control Systems (ICS):**  
   Extensive experience programming PLC and SCADA systems (AB, Emerson, Siemens), developing HMIs (FactoryTalk View, iFix, Ignition), developing S-88 style batch control systems (DeltaV and FactoryTalk Batch) as well as a supporting suite to manage different facets of operations (OPC configuration sheets, XML parsers for batch).
