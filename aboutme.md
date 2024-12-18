@@ -8,30 +8,25 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
 
 ---
 
-### What I Bring to the Table
+### Skills and Experience
 
 - **Technical Mastery:**  
   Skilled in Python, C#, RESTful APIs, FastAPI, XML, Docker, Terraform, and database management (SQLite, MongoDB, RDB design).
 
 - **Industrial Control Systems (ICS):**  
-  Extensive experience programming PLCs, developing HMIs (FactoryTalk View, iFix), and working with networking protocols like Profibus and Modbus.
+  Extensive experience programming PLC and SCADA systems (AB, Emerson, Siemens), developing HMIs (FactoryTalk View, iFix, Ignition), developing S-88 style batch control systems (DeltaV and FactoryTalk Batch) as well as a supporting suite to manage different facets of operations (OPC configuration sheets, XML parsers for batch).
 
 - **Data Engineering & Simulation:**  
   Proficient in asset/event architecture, SimPy modeling, and designing scalable data pipelines.
 
 - **Project Ownership:**  
-  Adept at managing schedules, deliverables, and cross-functional collaboration to drive high-impact results.
+  Adept at managing schedules, deliverables, and cross-functional collaboration to drive high-impact results. Experienced 'Being Glue' to effectively delegate tasks and workflows to contractors while also ensuring quality deliverables.
 
 - **Mentorship & Communication:**  
   Committed to empowering teams through training, clear communication, and fostering growth.
 
 ---
 
-### My Story
-I began my career as a chemical engineer but quickly realized my passion lay in **automation** and **software engineering**. Over the years, I’ve built control systems, integrated cutting-edge technologies, and guided projects from ideation to completion—bridging operations with technological innovation.
+### My Career
+I began my career as a system integrator, and quickly realized my passion was in improving the quality of life of operators and manufacturing facilities by being more efficient and removing bloated workflows. Over the years, I’ve built control systems, integrated reliable technologies, and guided projects from ideation to completion—bridging operations with technological innovation.
 
-When I’m off the clock, you’ll find me tinkering with hobby projects, contributing to open-source tools, and pushing the boundaries of what’s possible with code.
-
-Check out my [GitHub](https://github.com/) to see my projects in action, or feel free to reach out if you’d like to connect or collaborate.
-
-**Let’s build something amazing together!**
