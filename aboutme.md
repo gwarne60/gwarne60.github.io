@@ -11,19 +11,27 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
 ### Skills and Experience
 
 - **Software:**  
-  Python, C#, Git, FastAPI, Docker, Terraform, and database architecture
+  Python, Azure, SQL, Docker C#, Git, Docker
 
 - **Industrial Control Systems (ICS):**  
-  Extensive experience programming PLC and SCADA systems (AB, Emerson, Siemens), developing HMIs (FactoryTalk View, iFix, Ignition), developing S-88 style batch control systems (DeltaV and FactoryTalk Batch) as well as a supporting suite to manage different facets of operations (OPC configuration sheets, XML parsers for batch).
+  Lead programmer for PLC and SCADA systems (AB, Emerson, Siemens),
+  High Performance HMI development (FactoryTalk View, iFix, Ignition)
+  S-88 Batching and MES (DeltaV and FactoryTalk Batch)
+  Infrastructure and tooling for development and maintenance across various platforms and technologies
 
 - **Data Engineering & Simulation:**  
-  Proficient in asset/event architecture, SimPy modeling, and designing scalable data pipelines. Also effective at translating and managing large datasets, developing novel workflows and tooling to minimize Human Factor Error (HFE).
+  Proficient in asset/event architecture
+  ETL of non-standard Type 2 SCD Operational Technology (OT) historical data
+  Effective at identifying and qualifying process improvements that drive value
 
 - **Project Ownership:**  
-  Adept at managing schedules, deliverables, and cross-functional collaboration to drive high-impact results. Experienced 'Being Glue' to effectively delegate tasks and workflows to contractors while also ensuring quality deliverables.
+  Experienced in seeing control products and systems from concept to delivery
+  Focused on effective documentation standards and use-case deliverables for users
+  Regularly identify opportunities to pivot and iterate as needed
+   
 
 - **Mentorship & Communication:**  
-  Committed to empowering teams through training, clear communication, and fostering growth.
+  Experienced 'Being Glue' and committed to empowering teams through training, clear communication, and fostering growth.
 
 ---
 
