@@ -11,7 +11,7 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
 ### Skills and Experience
 
 - **Software:**  
-  Python, Azure, SQL, Docker C#, Git
+  Python, Azure, SQL, Git, Docker, C#
 
 - **Industrial Control Systems (ICS):**  
   Lead programmer for PLC and SCADA systems (AB, Emerson, Siemens)\
