@@ -27,7 +27,8 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
 - **Project Ownership:**  
   Experienced in seeing control products and systems from concept to delivery\
   Focused on effective documentation standards and use-case deliverables for users\
-  Regularly identify opportunities to pivot and iterate as needed
+  Regularly identify opportunities to pivot and iterate as needed for applications\
+  Integration and hypercare support of new infrastructure and applications for operations
    
 
 - **Mentorship & Communication:**  
