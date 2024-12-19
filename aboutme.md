@@ -14,20 +14,20 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
   Python, Azure, SQL, Docker C#, Git, Docker
 
 - **Industrial Control Systems (ICS):**  
-  Lead programmer for PLC and SCADA systems (AB, Emerson, Siemens),
-  High Performance HMI development (FactoryTalk View, iFix, Ignition)
-  S-88 Batching and MES (DeltaV and FactoryTalk Batch)
-  Infrastructure and tooling for development and maintenance across various platforms and technologies
+  Lead programmer for PLC and SCADA systems (AB, Emerson, Siemens)\
+  High Performance HMI development (FactoryTalk View, iFix, Ignition)\
+  S-88 Batching and MES (DeltaV and FactoryTalk Batch)\
+  Infrastructure and tooling for development and maintenance across various platforms and technologies\
 
 - **Data Engineering & Simulation:**  
-  Proficient in asset/event architecture
-  ETL of non-standard Type 2 SCD Operational Technology (OT) historical data
-  Effective at identifying and qualifying process improvements that drive value
+  Proficient in asset/event architecture\
+  ETL of non-standard Type 2 SCD Operational Technology (OT) historical data\
+  Effective at identifying and qualifying process improvements that drive value\
 
 - **Project Ownership:**  
-  Experienced in seeing control products and systems from concept to delivery
-  Focused on effective documentation standards and use-case deliverables for users
-  Regularly identify opportunities to pivot and iterate as needed
+  Experienced in seeing control products and systems from concept to delivery\
+  Focused on effective documentation standards and use-case deliverables for users\
+  Regularly identify opportunities to pivot and iterate as needed\
    
 
 - **Mentorship & Communication:**  
