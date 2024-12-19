@@ -37,5 +37,5 @@ Hi, I’m **Graham Warne**—an automation and software engineer who thrives on 
 ---
 
 ### My Career
-I began my career as a system integrator, and quickly realized my passion was in improving the quality of life of operators and manufacturing facilities by being more efficient and removing bloated workflows. Over the years, I’ve built control systems, integrated reliable technologies, and guided projects from ideation to completion—bridging operations with technological innovation.
+I began my career as a system integrator, and quickly realized my passion was in improving the quality of life of operators and manufacturing facilities by being more efficient and improving workflows. Over the years, I’ve built control systems, integrated reliable technologies, and guided projects from ideation to completion—bridging operations with technological innovation.
 
