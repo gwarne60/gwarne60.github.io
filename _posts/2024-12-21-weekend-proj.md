@@ -1,7 +1,7 @@
 ---
 title: "Weekend Project - SLC500 with Gemini 2.0 Flash Experimental w/ Thought"
 subtitle: "A vertical SLC emulation with Oracle XE MES that I would ideally never have to check on"
-date: 2024-12-15
+date: 2024-12-21
 categories: [AI, Industrial Control Systems, PLC, Automation]
 ---
 
