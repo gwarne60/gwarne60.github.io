@@ -10,13 +10,13 @@ categories: [AI, Industrial Control Systems, PLC, Automation]
 Over the past 12 days of OpenAI Christmas and Google releases there have been a couple huge models released lately that make end-user ease of higher level concepts 
 easier than they were even last week. A good opportunity to test this was using a few other projects I've been wanting to pull together. Here's the high level as summarized by Gemini 2.0 Flash:
 
-
+---
+# Gemini 2.0 Flash:
 Overall Functionality:
 
 The system allows users to define bread recipes and schedule production batches. As batches run, the PLC integration component simulates reading real-time data (like mixer speed and oven temperature) from the PLC and sends this data to the backend. The frontend allows users to monitor the production process and view information about recipes and batches.
 
----
-# Gemini 2.0 Flash:
+
 Prerequisites:
 
 Before you begin, ensure you have the following installed on your system:
