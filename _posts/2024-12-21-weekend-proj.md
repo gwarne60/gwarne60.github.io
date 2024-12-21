@@ -7,7 +7,7 @@ categories: [AI, Industrial Control Systems, PLC, Automation]
 
 # Over the past 12 days of OpenAI Christmas and Google releases...
 
-Over the past 12 days of OpenAI Christmas and Google releases there have been a couple huge models released lately that make end-user ease of higher level concepts 
+...there have been a couple huge models released lately that make end-user ease of higher level concepts 
 easier than they were even last week. A good opportunity to test this was using a few other projects I've been wanting to pull together. Here's the high level as summarized by Gemini 2.0 Flash:
 
 ---
