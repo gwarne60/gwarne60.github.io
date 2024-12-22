@@ -11,7 +11,7 @@ categories: [AI, Industrial Control Systems, PLC, Automation]
 easier than they were even last week. A good opportunity to test this was using a few other projects I've been wanting to pull together. Here's the high level as summarized by Gemini 2.0 Flash:
 
 ---
-# Gemini 2.0 Flash w/ Thought:
+## Gemini 2.0 Flash w/ Thought:
 
 The system allows users to define bread recipes and schedule production batches. As batches run, the PLC integration component simulates reading real-time data (like mixer speed and oven temperature) from the PLC and sends this data to the backend. The frontend allows users to monitor the production process and view information about recipes and batches.
 
@@ -44,7 +44,7 @@ This is something I've had issues with in the past. With non-standard edge confi
 (think edge node configuration) and managing maintenance of a database for low level abstractions in PLC code. After writing a simple SLC500 program for free from Rockwell, here's what Gemini 2.0 Flash w/ Thought returned:
 
 ---
-# Gemini 2.0 Flash w/ Thought:
+## Gemini 2.0 Flash w/ Thought:
 Rung-by-Rung Analysis:
 
 Rung 0: SOR BST XIC I:0.0/0 NXB XIC O:0.0/0 BND LEQ F8:0 3.0 XIC I:0.0/1 OTE O:0.0/0 EOR
@@ -244,3 +244,333 @@ This ladder logic controls three main unit operations: Pumping, Heating, and Agi
     Agitation: The agitator is started and stopped using dedicated start and stop pushbuttons with a latching mechanism. Its speed is controlled by a remote analog output setpoint. A timer tracks the programmed runtime of the agitator. Another timer acts as a fault detection mechanism, checking for the presence of a running feedback signal. The agitator will stop automatically after its programmed runtime, if the stop button is pressed, or if a fault is detected (no feedback).
 ---
 
+That was pretty good, one of the biggest things that sticks out to me missing is its failure to mention the interlock/permissive for the heating control despite mentioning it for the 'Pumping' summary. But overall the summary of the logic is correct, I was curious to see if it glossed over the temperature interlock on the heater or not in memory though:
+
+---
+
+Operational Outline: Pumping System
+
+How to Operate:
+
+    Start the Pump:
+
+        Action: Press the "Pump Start" button (corresponds to input I:0.0/0).
+
+        Logic: The rung will become true if either the start button is pressed OR the pump is already running, AND the pressure is within limits, AND the stop button is not pressed.
+
+        Result: The "Pump Run" output (O:0/0) will energize, starting the pump. The output is latched, so releasing the start button will not immediately stop the pump.
+
+    Stop the Pump:
+
+        Action: Press the "Pump Stop" button (corresponds to input I:0.0/1).
+
+        Logic: The rung will become false because the normally closed contact I:0.0/1 will open.
+
+        Result: The "Pump Run" output (O:0/0) will de-energize, stopping the pump.
+
+Safety Interlocks/Permissives:
+
+    Low Pressure Interlock: The pump will not start if the "T100 Pressure" (F8:0) is greater than 3.0. This prevents the pump from running under potentially damaging low-pressure conditions.
+
+    Stop Button as Emergency Stop: The "Pump Stop" button (I:0.0/1) acts as a direct break in the pump control circuit. Pressing it will immediately stop the pump regardless of other conditions.
+
+Existing Functionalities:
+
+    Manual Start/Stop: The pump is primarily controlled through manual pushbuttons.
+
+    Latching Start: Once started, the pump will continue to run even if the start button is released until the stop button is pressed or the low-pressure interlock is triggered.
+
+    Pressure Monitoring: The system monitors the "T100 Pressure" (F8:0) to prevent operation under low-pressure conditions.
+
+Operational Outline: Heating System
+
+How to Operate:
+
+    Start the Heater:
+
+        Action: Activate one of the following start inputs:
+
+            "Heater local pb 1 (start)" (I:0.0/4)
+
+            "heater pb 2 start" (I:0.0/5)
+
+            "heater remote start" (I:0.0/6)
+
+        Permissives: Both local stop buttons ("Heater local stop 1" - I:0.0/2 and "Heater local stop 2" - I:0.0/3) must not be pressed.
+
+        Logic: If any of the start inputs are active AND both local stop inputs are inactive, the rung will become true.
+
+        Result: The "heater on" output (O:0/1) will energize and latch, turning the heater ON. Simultaneously, the "Heater Runtime SP (remote)" value from N7:1 will be loaded into the preset of the "Heater RunTime At SP" timer (T4:0).
+
+    Automatic Operation after Start:
+
+        Logic: Once the "heater on" output is energized, the system monitors the "Heater PV (F)" (F8:1) against the "Heater SP (F)" (F8:2).
+
+        Timer Activation: When the "Heater PV (F)" becomes greater than the "Heater SP (F)", the "Heater RunTime At SP" timer (T4:0) will start counting. This timer has a preset value set by the "Heater Runtime SP (remote)" (N7:1).
+
+    Stop the Heater: The heater can be stopped in several ways:
+
+        Automatic Stop (Timed):
+
+            Logic: When the "Heater RunTime At SP" timer (T4:0) reaches its preset value (indicated by the T4:0/DN bit becoming true).
+
+            Result: The "heater on" output (O:0/1) will be unlatched, turning the heater OFF.
+
+        Manual Stop (Local):
+
+            Action: Press either the "Heater local stop 1" (I:0.0/2) OR the "Heater local stop 2" (I:0.0/3) button.
+
+            Logic: The corresponding normally closed contact will open, making the rung false.
+
+            Result: The "heater on" output (O:0/1) will be unlatched, turning the heater OFF.
+
+        Safety Stop (High Temperature):
+
+            Logic: If the "Heater PV (F)" (F8:1) exceeds 250.0.
+
+            Result: The "heater on" output (O:0/1) will be unlatched, turning the heater OFF.
+
+Safety Interlocks/Permissives:
+
+    Dual Local Stop Buttons: The presence of two local stop buttons provides redundancy for emergency shutdown.
+
+    High Temperature Limit: The system automatically shuts off the heater if the temperature exceeds 250.0, preventing potential overheating and damage.
+
+    Local Stop Permissives: The heater cannot be started if either of the local stop buttons is pressed.
+
+Existing Functionalities:
+
+    Multiple Start Options: Allows for starting the heater from different locations (local or remote).
+
+    Latching Start: The heater stays on once started until a stop condition is met.
+
+    Temperature-Based Timer Control: The heater operation is linked to achieving the setpoint temperature and then running for a specified duration.
+
+    Remote Runtime Setting: The duration the heater runs at the setpoint is determined by the remote value in N7:1.
+
+Operational Outline: Agitation System
+
+How to Operate:
+
+    Start the Agitator:
+
+        Action: Press the "Agit start pb" (I:0.0/7).
+
+        Permissive: The "Agit stop pb" (I:0.0/9) must not be pressed.
+
+        Logic: If the start button is pressed OR the agitator is already running AND the stop button is not pressed, the rung will become true.
+
+        Result: The "Agit run coil" output (O:0/2) will energize and latch, starting the agitator.
+
+        Speed Setting: Upon starting, the value from "Agit % SP (remote)" (N7:3) will be moved to the "Agit Speed Pot" output (O:0.1), setting the agitator speed.
+
+        Runtime Timer Setting: The value from "Agit Runtime SP (remote)" (N7:2) will be loaded into the preset of the "Agitator Runtime SP" timer (T4:1).
+
+    Automatic Operation after Start:
+
+        Logic: Once the "Agit run coil" is energized, the "Agitator Runtime SP" timer (T4:1) will start counting.
+
+    Stop the Agitator: The agitator can be stopped in several ways:
+
+        Manual Stop:
+
+            Action: Press the "Agit stop pb" (I:0.0/9).
+
+            Logic: The normally closed contact will open, making the rung false.
+
+            Result: The "Agit run coil" output (O:0/2) will be unlatched, stopping the agitator.
+
+        Automatic Stop (Timed):
+
+            Logic: When the "Agitator Runtime SP" timer (T4:1) reaches its preset value (indicated by the T4:1/DN bit becoming true).
+
+            Result: The "Agit run coil" output (O:0/2) will be unlatched, stopping the agitator.
+
+        Automatic Stop (Fault Detection):
+
+            Logic: If the "Agit run coil" is energized BUT the "Agitator Running" feedback (I:0.0/8) is NOT active, the timer T4:2 will start counting. If this timer reaches its preset (10 seconds), it indicates a potential fault.
+
+            Result: The "Agit run coil" output (O:0/2) will be unlatched, stopping the agitator.
+
+Safety Interlocks/Permissives:
+
+    Stop Button as Emergency Stop: The "Agit stop pb" (I:0.0/9) acts as a direct break in the agitator control circuit.
+
+    Fault Detection: The system monitors for feedback indicating the agitator is running. If the feedback is missing for a certain period while the agitator is commanded ON, it will be stopped as a safety measure.
+
+Existing Functionalities:
+
+    Manual Start/Stop with Latching: The agitator is started and stopped using a dedicated pushbutton with a latching mechanism.
+
+    Remote Speed Control: The agitator speed is controlled by an analog output (O:0.1) set by the remote value in N7:3.
+
+    Remote Runtime Setting: The duration the agitator runs is determined by the remote value in N7:2.
+
+    Agitator Running Feedback Monitoring: The system uses input I:0.0/8 to verify the agitator is actually running after being started. This allows for fault detection if the agitator fails to start or stalls.
+
+---
+
+Okay so it did notice and mention it. I guess a highly detailed database is better for it to cache in local context than a summarized one. I would rate this a solid 9/10 as far as descriptions go. Out of curiosity, how much could it be condensed? A quick count shows this at almost 1900 tokens for...9 or 10 rungs of ladder logic. True its three whole unit operations, but the reality is without having to capture any faults or complicated logic just historizing this kept it almost at capacity. The truth is, functionally though this wasn't a bad write-up.
+
+---
+## Gemini 2.0 Flash w/ Thought:
+
+Conceptual Framework for Tokens:
+
+We'll assign short tokens to common actions, components, and conditions. This will drastically reduce the word count while preserving meaning.
+
+Proposed Token Categories:
+
+    Actions: START, STOP, SET, MONITOR, IF, WHEN
+
+    Components: PB (Pushbutton), OUT (Output), TMR (Timer), TEMP (Temperature), PRESS (Pressure), FB (Feedback)
+
+    Conditions/Qualifiers: AUTO, MANUAL, REM (Remote), LOC (Local), HI (High), LO (Low), DONE
+
+    Logical Operators (if needed for complex conditions): & (AND), | (OR), ! (NOT)
+
+Compressed Operational Outlines:
+
+Pumping System:
+
+      
+UNIT: PUMP
+  OP:
+    1. START: PB I:0.0/0 => OUT O:0.0/0 (LATCH)
+    2. STOP:  PB I:0.0/1 => OUT !O:0.0/0
+  SAFE:
+    - PRESS_LO (Prevent START): IF F8:0 > 3.0
+    - STOP_PB (Direct STOP): PB I:0.0/1
+  FUNC: MANUAL_CTRL, LATCH_START, PRESS_MON
+
+    
+
+Use code with caution.
+
+Explanation:
+
+    UNIT: PUMP: Identifies the unit operation.
+
+    OP:: Indicates operational steps.
+
+    1. START: PB I:0.0/0 => OUT O:0.0/0 (LATCH): "To start, press pushbutton I:0.0/0, which energizes output O:0.0/0 (with latching)."
+
+    2. STOP: PB I:0.0/1 => OUT !O:0.0/0: "To stop, press pushbutton I:0.0/1, which de-energizes output O:0.0/0."
+
+    SAFE:: Indicates safety interlocks.
+
+    - PRESS_LO (Prevent START): IF F8:0 > 3.0: "Low pressure interlock prevents starting if F8:0 is greater than 3.0."
+
+    - STOP_PB (Direct STOP): PB I:0.0/1: "The stop pushbutton I:0.0/1 directly stops the pump."
+
+    FUNC:: Indicates functionalities.
+
+    MANUAL_CTRL: Manual control via pushbuttons.
+
+    LATCH_START: The start is latched.
+
+    PRESS_MON: Pressure is monitored.
+
+Heating System:
+
+      
+UNIT: HEATER
+  OP:
+    1. START: PB LOC I:0.0/4 | I:0.0/5 | REM I:0.0/6
+       IF !PB LOC I:0.0/2 & !PB LOC I:0.0/3 => OUT O:0.0/1 (LATCH)
+       SET TMR T4:0 PRE=N7:1
+    2. AUTO_OP: WHEN TEMP F8:1 > F8:2 => START TMR T4:0
+    3. STOP:
+       - AUTO (Timed): WHEN TMR T4:0 DONE => OUT !O:0.0/1
+       - MANUAL (LOC): PB LOC I:0.0/2 | I:0.0/3 => OUT !O:0.0/1
+       - SAFE (HI_TEMP): IF TEMP F8:1 > 250.0 => OUT !O:0.0/1
+  SAFE:
+    - LOC_STOP_REQD (Prevent START): IF PB LOC I:0.0/2 | I:0.0/3
+    - HI_TEMP_STOP: IF TEMP F8:1 > 250.0
+  FUNC: MULTI_START, LATCH_START, TEMP_BASED_TMR_CTRL, REM_RUNTIME_SET
+
+    
+
+Use code with caution.
+
+Explanation:
+
+    START: PB LOC I:0.0/4 | I:0.0/5 | REM I:0.0/6: "Start by pressing local pushbutton I:0.0/4 OR I:0.0/5 OR remote input I:0.0/6."
+
+    IF !PB LOC I:0.0/2 & !PB LOC I:0.0/3 => OUT O:0.0/1 (LATCH): "If local stop buttons I:0.0/2 AND I:0.0/3 are NOT pressed, energize output O:0.0/1 (latched)."
+
+    SET TMR T4:0 PRE=N7:1: "Set timer T4:0's preset to the value in N7:1."
+
+    AUTO_OP: WHEN TEMP F8:1 > F8:2 => START TMR T4:0: "During automatic operation, when temperature F8:1 is greater than F8:2, start timer T4:0."
+
+    STOP:: Indicates ways to stop.
+
+    AUTO (Timed): WHEN TMR T4:0 DONE => OUT !O:0.0/1: "Automatic stop when timer T4:0 is done, de-energize output O:0.0/1."
+
+    MANUAL (LOC): PB LOC I:0.0/2 | I:0.0/3 => OUT !O:0.0/1: "Manual stop by pressing local pushbutton I:0.0/2 OR I:0.0/3, de-energize output O:0.0/1."
+
+    SAFE (HI_TEMP): IF TEMP F8:1 > 250.0 => OUT !O:0.0/1: "Safety stop if temperature F8:1 is greater than 250.0, de-energize output O:0.0/1."
+
+    SAFE: - LOC_STOP_REQD (Prevent START): IF PB LOC I:0.0/2 | I:0.0/3: "Safety interlock: local stop buttons must not be pressed to start."
+
+    MULTI_START: Multiple start options.
+
+    TEMP_BASED_TMR_CTRL: Timer control based on temperature.
+
+    REM_RUNTIME_SET: Remote setting for runtime.
+
+Agitation System:
+
+      
+UNIT: AGITATOR
+  OP:
+    1. START: PB I:0.0/7
+       IF !PB I:0.0/9 => OUT O:0.0/2 (LATCH)
+       SET OUT O:0.1 SRC=N7:3
+       SET TMR T4:1 PRE=N7:2
+    2. AUTO_OP: WHEN OUT O:0.0/2 => START TMR T4:1
+               WHEN OUT O:0.0/2 & !FB I:0.0/8 => START TMR T4:2
+    3. STOP:
+       - MANUAL: PB I:0.0/9 => OUT !O:0.0/2
+       - AUTO (Timed): WHEN TMR T4:1 DONE => OUT !O:0.0/2
+       - AUTO (Fault): WHEN TMR T4:2 DONE => OUT !O:0.0/2
+  SAFE:
+    - STOP_PB (Direct STOP): PB I:0.0/9
+    - NO_FB_STOP (AUTO STOP): WHEN TMR T4:2 DONE
+  FUNC: MANUAL_CTRL, LATCH_START, REM_SPEED_CTRL, REM_RUNTIME_SET, FB_MON_FAULT_DET
+
+    
+
+Use code with caution.
+
+Explanation:
+
+    SET OUT O:0.1 SRC=N7:3: "Set output O:0.1 (speed pot) with the value from N7:3."
+
+    AUTO_OP: WHEN OUT O:0.0/2 => START TMR T4:1: "Automatic operation: when output O:0.0/2 is energized, start timer T4:1."
+
+    WHEN OUT O:0.0/2 & !FB I:0.0/8 => START TMR T4:2: "When output O:0.0/2 is energized AND feedback I:0.0/8 is NOT active, start timer T4:2 (fault timer)."
+
+    SAFE: - NO_FB_STOP (AUTO STOP): WHEN TMR T4:2 DONE: "Safety interlock: automatic stop when timer T4:2 (no feedback) is done."
+
+    REM_SPEED_CTRL: Remote speed control.
+
+    FB_MON_FAULT_DET: Feedback monitoring for fault detection.
+
+Benefits of this Token-Based Approach:
+
+    Significant Compression: Reduces verbosity while retaining key information.
+
+    Structured Format: Easier to parse and understand compared to free-form text.
+
+    Machine-Readable: Lends itself well to programmatic interpretation.
+
+    Focus on Actions and Conditions: Clearly highlights how to operate and the governing logic.
+
+Considerations:
+
+    Token Key: You would need a key or legend defining each token for someone unfamiliar with the system.
+
+    Complexity Trade-off: For very complex logic, some statements might become slightly convoluted, requiring careful construction.
+
+    Maintainability: Consistency in token usage is crucial for maintainability.
