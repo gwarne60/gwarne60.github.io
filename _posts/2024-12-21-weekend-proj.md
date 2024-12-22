@@ -11,7 +11,7 @@ categories: [AI, Industrial Control Systems, PLC, Automation]
 easier than they were even last week. A good opportunity to test this was using a few other projects I've been wanting to pull together. Here's the high level as summarized by Gemini 2.0 Flash:
 
 --
-# Gemini 2.0 Flash w/ Thought:
+### Gemini 2.0 Flash w/ Thought:
 
 The system allows users to define bread recipes and schedule production batches. As batches run, the PLC integration component simulates reading real-time data (like mixer speed and oven temperature) from the PLC and sends this data to the backend. The frontend allows users to monitor the production process and view information about recipes and batches.
 
@@ -44,7 +44,7 @@ This is something I've had issues with in the past. With non-standard edge confi
 (think edge node configuration) and managing maintenance of a database for low level abstractions in PLC code. After writing a simple SLC500 program for free from Rockwell, here's what Gemini 2.0 Flash w/ Thought returned:
 
 ---
-## Gemini 2.0 Flash w/ Thought:
+### Gemini 2.0 Flash w/ Thought:
 Rung-by-Rung Analysis:
 
 Rung 0: SOR BST XIC I:0.0/0 NXB XIC O:0.0/0 BND LEQ F8:0 3.0 XIC I:0.0/1 OTE O:0.0/0 EOR
@@ -247,7 +247,7 @@ This ladder logic controls three main unit operations: Pumping, Heating, and Agi
 That was pretty good, but something I was curious about was how it partitioned the functionalities. So after asking it to expand... 
 
 ---
-# Gemini 2.0 Flash w/ Thought:
+### Gemini 2.0 Flash w/ Thought:
 Operational Outline: Pumping System
 
 How to Operate:
@@ -412,7 +412,7 @@ Existing Functionalities:
 Okay so it did notice and mention it. I guess a highly detailed database is better for it to cache in local context than a summarized one. I would rate this a solid 9/10 as far as descriptions go. Out of curiosity, how much could it be condensed? A quick count shows this at almost 1900 tokens for...9 or 10 rungs of ladder logic. True its three whole unit operations, but the reality is without having to capture any faults or complicated logic just historizing this kept it almost at capacity. The truth is, functionally though this wasn't a bad write-up.
 
 ---
-## Gemini 2.0 Flash w/ Thought:
+### Gemini 2.0 Flash w/ Thought:
 
 Conceptual Framework for Tokens:
 
