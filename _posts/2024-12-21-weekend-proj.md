@@ -35,4 +35,12 @@ Before you begin, ensure you have the following installed on your system:
 
 ---
 
+So long story short I had a front end packaged in docker, a backend running locally on the host (this is to simplify
+the plc simulated Ethernet commmunications) and a two way DBE for historical and runtime data. 
+this is an architecture I've been building as a side project, and overall AI has been helpful
+in building a state driven and s88 style architecture. but with a bit more processing power now I'm 
+interested in building a reference for actual ladder logic. 
+
+this is something I've had issues with in the past. with non-standard edge configuration for real world constraints 
+(think edge node configuration)
 
