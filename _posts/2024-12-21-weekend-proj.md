@@ -12,7 +12,8 @@ easier than they were even last week. A good opportunity to test this was using 
 
 ---
 <div style="font-size: smaller;">
-## Gemini 2.0 Flash w/ Thought:
+    
+# Gemini 2.0 Flash w/ Thought:
 
 The system allows users to define bread recipes and schedule production batches. As batches run, the PLC integration component simulates reading real-time data (like mixer speed and oven temperature) from the PLC and sends this data to the backend. The frontend allows users to monitor the production process and view information about recipes and batches.
 
