@@ -10,9 +10,7 @@ categories: [AI, Industrial Control Systems, PLC, Automation]
 ...there have been a couple huge models released lately that make end-user ease of higher level concepts 
 easier than they were even last week. A good opportunity to test this was using a few other projects I've been wanting to pull together. Here's the high level as summarized by Gemini 2.0 Flash:
 
----
-<div style="font-size: smaller;">
-    
+--
 # Gemini 2.0 Flash w/ Thought:
 
 The system allows users to define bread recipes and schedule production batches. As batches run, the PLC integration component simulates reading real-time data (like mixer speed and oven temperature) from the PLC and sends this data to the backend. The frontend allows users to monitor the production process and view information about recipes and batches.
@@ -33,7 +31,7 @@ Before you begin, ensure you have the following installed on your system:
     A suitable terminal or command prompt: For executing commands.
 
     (Optional, for real PLC integration): A configured Rockwell Automation PLC and knowledge of its IP address and tag names. This project currently uses an emulator, so a real PLC is not strictly required for basic functionality.
-</div>
+
 ---
 
 So long story short I had a front end packaged in docker, a backend running locally on the host (this is to simplify
@@ -46,7 +44,6 @@ This is something I've had issues with in the past. With non-standard edge confi
 (think edge node configuration) and managing maintenance of a database for low level abstractions in PLC code. After writing a simple SLC500 program for free from Rockwell, here's what Gemini 2.0 Flash w/ Thought returned:
 
 ---
-<div style="font-size: smaller;">
 ## Gemini 2.0 Flash w/ Thought:
 Rung-by-Rung Analysis:
 
@@ -410,7 +407,6 @@ Existing Functionalities:
     Remote Runtime Setting: The duration the agitator runs is determined by the remote value in N7:2.
 
     Agitator Running Feedback Monitoring: The system uses input I:0.0/8 to verify the agitator is actually running after being started. This allows for fault detection if the agitator fails to start or stalls.
-</div>
 ---
 
 Okay so it did notice and mention it. I guess a highly detailed database is better for it to cache in local context than a summarized one. I would rate this a solid 9/10 as far as descriptions go. Out of curiosity, how much could it be condensed? A quick count shows this at almost 1900 tokens for...9 or 10 rungs of ladder logic. True its three whole unit operations, but the reality is without having to capture any faults or complicated logic just historizing this kept it almost at capacity. The truth is, functionally though this wasn't a bad write-up.
