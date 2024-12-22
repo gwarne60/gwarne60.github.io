@@ -244,7 +244,9 @@ This ladder logic controls three main unit operations: Pumping, Heating, and Agi
     Agitation: The agitator is started and stopped using dedicated start and stop pushbuttons with a latching mechanism. Its speed is controlled by a remote analog output setpoint. A timer tracks the programmed runtime of the agitator. Another timer acts as a fault detection mechanism, checking for the presence of a running feedback signal. The agitator will stop automatically after its programmed runtime, if the stop button is pressed, or if a fault is detected (no feedback).
 ---
 
-That was pretty good, but something I was curious about was how it partitioned the functionalities. So after asking it to expand... 
+That was pretty good, but a few really weird hangups.
+
+Why did it label the pump as a "low pressure" condition when the logic clearly outlines it's more of a "high discharge pressure" interlock. It also doesn't stop it from just starting, but from running in general so it's a true interlock. How does it classify and partition functionalities? So after asking it to expand... 
 
 ---
 ### Gemini 2.0 Flash w/ Thought:
@@ -409,7 +411,7 @@ Existing Functionalities:
     Agitator Running Feedback Monitoring: The system uses input I:0.0/8 to verify the agitator is actually running after being started. This allows for fault detection if the agitator fails to start or stalls.
 ---
 
-Okay so it did notice and mention it. I guess a highly detailed database is better for it to cache in local context than a summarized one. I would rate this a solid 9/10 as far as descriptions go. Out of curiosity, how much could it be condensed? A quick count shows this at almost 1900 tokens for...9 or 10 rungs of ladder logic. True its three whole unit operations, but the reality is without having to capture any faults or complicated logic just historizing this kept it almost at capacity. The truth is, functionally though this wasn't a bad write-up.
+Okay so it doubled down. It's overall a good description but the adjustment in tone means that as that control strategy is abstracted it's going to be misrepresented. Out of curiosity, how much could it be condensed? Is this going to fix the problem inherently if the code itself is represented correctly with no associated context? A quick count shows this at almost 1900 tokens for...9 or 10 rungs of ladder logic. True its three whole unit operations, but the reality is without having to capture any faults or complicated logic just historizing this kept it almost at capacity.
 
 ---
 ### Gemini 2.0 Flash w/ Thought:
