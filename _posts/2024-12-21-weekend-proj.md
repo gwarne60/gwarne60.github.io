@@ -10,7 +10,7 @@ categories: [AI, Industrial Control Systems, PLC, Automation]
 ...there have been a couple huge models released lately that make end-user ease of higher level concepts 
 easier than they were even last week. A good opportunity to test this was using a few other projects I've been wanting to pull together. Here's the high level as summarized by Gemini 2.0 Flash:
 
---
+---
 ### Gemini 2.0 Flash w/ Thought:
 
 The system allows users to define bread recipes and schedule production batches. As batches run, the PLC integration component simulates reading real-time data (like mixer speed and oven temperature) from the PLC and sends this data to the backend. The frontend allows users to monitor the production process and view information about recipes and batches.
@@ -34,14 +34,11 @@ Before you begin, ensure you have the following installed on your system:
 
 ---
 
-So long story short I had a front end packaged in docker, a backend running locally on the host (this is to simplify
-the plc simulated Ethernet commmunications) and a two way DBE for historical and runtime data. 
-this is an architecture I've been building as a side project, and overall AI has been helpful
-in building a state driven and s88 style architecture. But with a bit more processing power now I'm 
-interested in building a reference for actual ladder logic. 
+So long story short I had a front end packaged in docker, a backend running locally on the host (to simplify
+the PLC simulated Ethernet commmunications) and a two way DBE for historical and runtime data. 
+This is an architecture I've been building as a side project, using AI to rough out the S88 style architecture. I never used many frameworks or bolt-on functionalities, but the introduction of thought models from Google and OpenAI has been really helpful.The addition of the thought process helps to maintain these edge node IoT configurations, and keeps relationships for low level abstractions in PLC code. 
 
-This is something I've had issues with in the past. With non-standard edge configuration for real world constraints 
-(think edge node configuration) and managing maintenance of a database for low level abstractions in PLC code. After writing a simple SLC500 program for free from Rockwell, here's what Gemini 2.0 Flash w/ Thought returned:
+The real star of the show here is Rockwell with putting MicroLogix out for free with an account. After writing a simple SLC500 program for free from, I was able to use Gemini 2.0 Flash w/ Thought to tokenize the rungs into token relationships:
 
 ---
 ### Gemini 2.0 Flash w/ Thought:
@@ -244,9 +241,9 @@ This ladder logic controls three main unit operations: Pumping, Heating, and Agi
     Agitation: The agitator is started and stopped using dedicated start and stop pushbuttons with a latching mechanism. Its speed is controlled by a remote analog output setpoint. A timer tracks the programmed runtime of the agitator. Another timer acts as a fault detection mechanism, checking for the presence of a running feedback signal. The agitator will stop automatically after its programmed runtime, if the stop button is pressed, or if a fault is detected (no feedback).
 ---
 
-That was pretty good, but a few really weird hangups.
+With exceptions the tokenization did a good job qualifying the SLC code.
 
-Why did it label the pump as a "low pressure" condition when the logic clearly outlines it's more of a "high discharge pressure" interlock. It also doesn't stop it from just starting, but from running in general so it's a true interlock. How does it classify and partition functionalities? So after asking it to expand... 
+The pump control example listed as a "low pressure" condition when the logic outlines a "high discharge pressure" interlock. The tokens captured functionality but the qualifying label is backwards. I wanted to see if this impacted tokenzation downstream. So after asking it to expand... 
 
 ---
 ### Gemini 2.0 Flash w/ Thought:
@@ -409,9 +406,10 @@ Existing Functionalities:
     Remote Runtime Setting: The duration the agitator runs is determined by the remote value in N7:2.
 
     Agitator Running Feedback Monitoring: The system uses input I:0.0/8 to verify the agitator is actually running after being started. This allows for fault detection if the agitator fails to start or stalls.
+    
 ---
 
-Okay so it doubled down. It's overall a good description but the adjustment in tone means that as that control strategy is abstracted it's going to be misrepresented. Out of curiosity, how much could it be condensed? Is this going to fix the problem inherently if the code itself is represented correctly with no associated context? A quick count shows this at almost 1900 tokens for...9 or 10 rungs of ladder logic. True its three whole unit operations, but the reality is without having to capture any faults or complicated logic just historizing this kept it almost at capacity.
+Translation out verifies the control strategy is misrepresented. But this output of PLC code is currently at 1899 tokens for...9 or 10 rungs of ladder logic. So a condensed token framework has to be used:
 
 ---
 ### Gemini 2.0 Flash w/ Thought:
@@ -558,20 +556,6 @@ Explanation:
 
     FB_MON_FAULT_DET: Feedback monitoring for fault detection.
 
-Benefits of this Token-Based Approach:
+---
 
-    Significant Compression: Reduces verbosity while retaining key information.
 
-    Structured Format: Easier to parse and understand compared to free-form text.
-
-    Machine-Readable: Lends itself well to programmatic interpretation.
-
-    Focus on Actions and Conditions: Clearly highlights how to operate and the governing logic.
-
-Considerations:
-
-    Token Key: You would need a key or legend defining each token for someone unfamiliar with the system.
-
-    Complexity Trade-off: For very complex logic, some statements might become slightly convoluted, requiring careful construction.
-
-    Maintainability: Consistency in token usage is crucial for maintainability.
