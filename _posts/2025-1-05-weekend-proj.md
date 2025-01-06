@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building the Factory of the Future: A Dockerized OT System with LLM Integration"
+title: "A Dockerized OT System with LLM Integration"
 date: 2025-01-05
 categories: [OT, Automation, Docker, OpenAI, OPC UA]
 tags: [docker, opcua, python, nodejs, openai, llm, industrial-automation]
